@@ -11,9 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import board.dto.BoardDto;
 import board.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class BoardController {
+	
+	// private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private BoardService boardService;
