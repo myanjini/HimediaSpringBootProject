@@ -29,5 +29,22 @@
 		  from t_board
 		 where deleted_yn = 'N' and board_idx = #{boardIdx}		       
 	</select>
+	
+	<update id="updateBoard" parameterType="board.dto.BoardDto">
+		update t_board
+		   set title = #{title}, 
+		       contents = #{contents}, 
+		       updated_dt = now(), 
+		       updated_id = 'admin'
+		 where board_idx = #{boardIdx} 		 
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		update t_board
+		   set deleted_yn = 'Y', 
+		       updated_dt = now(), 
+		       updated_id = 'admin'
+		 where board_idx = #{boardIdx} 		 
+	</delete>
 </mapper>  
   
