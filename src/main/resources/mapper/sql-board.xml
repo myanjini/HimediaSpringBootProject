@@ -15,5 +15,19 @@
 		insert into t_board (title, contents, created_dt, created_id)
 		values ( #{title}, #{contents}, now(), 'admin' )
 	</insert>
+	
+	<update id="updateHitCount" parameterType="int">
+		update t_board 
+		   set hit_cnt = hit_cnt + 1
+		 where board_idx = #{boardIdx}
+	</update>
+	
+	<select id="selectBoardDetail" parameterType="int" resultType="board.dto.BoardDto">
+		select board_idx, title, contents, hit_cnt,
+		       date_format(created_dt, '%Y-%m-%d %H:%i:%s') as created_dt,
+		       created_id
+		  from t_board
+		 where deleted_yn = 'N' and board_idx = #{boardIdx}		       
+	</select>
 </mapper>  
   
