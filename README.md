@@ -28,7 +28,11 @@
 ### 게시판 삭제 기능 구현
 
 ### 로깅 기능 구현
-- logback
-- log4jdbc 
 
+### 인터셉터를 이용한 요청 시작과 끝 로그 출력
 
+### AOP를 이용한 Contrller, ServiceImpl, Mapper 로그 출력
+
+### @Transactional 어노테이션을 이용한 트랜잭션 설정
+
+### AOP를 이용한 트랜잭션 설정

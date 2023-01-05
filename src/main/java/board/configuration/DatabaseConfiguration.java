@@ -11,17 +11,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-// application.properties 파일의 내용을 읽어서 DataSource 객체를 생성
 @Configuration
 @PropertySource("classpath:/application.properties")
-@EnableTransactionManagement
+// @EnableTransactionManagement
 public class DatabaseConfiguration {
 
 	@Autowired
@@ -62,9 +58,9 @@ public class DatabaseConfiguration {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
 	
-	@Bean
-	public PlatformTransactionManager transactionManager() throws Exception {
-		return new DataSourceTransactionManager(dataSource());
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager() throws Exception {
+//		return new DataSourceTransactionManager(dataSource());
+//	}
 }
 
