@@ -10,7 +10,7 @@ import board.dto.BoardDto;
 import board.mapper.BoardMapper;
 
 @Service
-@Transactional
+// @Transactional
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
