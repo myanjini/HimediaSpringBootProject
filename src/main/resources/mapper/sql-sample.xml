@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper.SampleMapper">
 	<!-- 가장 최근에 등록된 기사를 조회 -->
-	<select id="selectOneArticle" resultType="board.dto.ArticleDto">
+	<select id="selectOneTopic" resultType="board.dto.TopicDto">
 		select topic_id, topic_title, topic_image, topic_contents, regist_dt
 		  from t_topic
       order by regist_dt desc
@@ -21,7 +21,7 @@
 	</select>
 	
 	<!-- 세부 기사 정보를 조회 -->
-	<select id="selectSubArticle" parameterType="int" resultType="board.dto.SubArticleDto">
+	<select id="selectArticle" parameterType="int" resultType="board.dto.ArticleDto">
 		select article_id, article_title, article_contents
 		  from t_article
 		 where topic_id = #{topicId}	

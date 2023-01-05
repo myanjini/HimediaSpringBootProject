@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import board.dto.ArticleDto;
+import board.dto.TopicDto;
 import board.dto.BoardDto;
 import board.dto.CategoryDto;
-import board.dto.SubArticleDto;
+import board.dto.ArticleDto;
 import board.service.BoardService;
 import board.service.SampleService;
 
@@ -29,14 +29,14 @@ public class SampleController {
 		List<BoardDto> list = boardService.selectBoardListForSample();
 		mv.addObject("sidemenu", list);
 		
-		ArticleDto articleDto = sampleService.selectOneArticle();
-		mv.addObject("article", articleDto);
+		TopicDto topicDto = sampleService.selectOneArticle();
+		mv.addObject("topic", topicDto);
 		
-		List<CategoryDto> categoryDto = sampleService.selectCategory(articleDto.getTopicId());
+		List<CategoryDto> categoryDto = sampleService.selectCategory(topicDto.getTopicId());
 		mv.addObject("category", categoryDto);
 		
-		List<SubArticleDto> subArticleDto = sampleService.selectSubArticle(articleDto.getTopicId());
-		mv.addObject("subArticle", subArticleDto);
+		List<ArticleDto> articleDto = sampleService.selectSubArticle(topicDto.getTopicId());
+		mv.addObject("article", articleDto);
 				
 		return mv;
 	}

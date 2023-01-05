@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class ArticleDto {
+	private int articleId;
+	private String articleTitle;
+	private String articleContents;
 	private int topicId;
-	private String topicTitle;
-	private String topicImage;
-	private String topicContents;
-	private String registDt;
 }

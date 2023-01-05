@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import board.dto.ArticleDto;
+import board.dto.TopicDto;
 import board.dto.CategoryDto;
-import board.dto.SubArticleDto;
+import board.dto.ArticleDto;
 import board.mapper.SampleMapper;
 
 @Service
@@ -16,8 +16,8 @@ public class SampleServiceImpl implements SampleService {
 	private SampleMapper sampleMapper;
 	
 	@Override
-	public ArticleDto selectOneArticle() throws Exception {
-		return sampleMapper.selectOneArticle();
+	public TopicDto selectOneArticle() throws Exception {
+		return sampleMapper.selectOneTopic();
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
-	public List<SubArticleDto> selectSubArticle(int topicId) throws Exception {
-		return sampleMapper.selectSubArticle(topicId);
+	public List<ArticleDto> selectSubArticle(int topicId) throws Exception {
+		return sampleMapper.selectArticle(topicId);
 	}
 }

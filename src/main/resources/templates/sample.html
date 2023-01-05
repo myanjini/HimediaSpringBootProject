@@ -46,22 +46,22 @@
 	</ul>
 	</div>
 
-	<h1>[[${article.topicTitle}]]</h1>
+	<h1>[[${topic.topicTitle}]]</h1>
 	<!-- <h1 th:text="${article.topicTitle}"></h1> -->
 
 	<div class="story-info">
 	<time datetime="2014-08-10">
-	<i class="fa fa-clock-o"></i> [[${article.registDt}]]
+	<i class="fa fa-clock-o"></i> [[${topic.registDt}]]
 	</time>
 	</div>
 
-	<p><img src="" alt="" th:attrappend="src=${article.topicImage}"></p>
+	<p><img src="" alt="" th:attrappend="src=${topic.topicImage}"></p>
 
-	<p>[[${article.topicContents}]]</p>
+	<p>[[${topic.topicContents}]]</p>
 
-	<th:block th:each="sa : ${subArticle}">
-		<h2>[[${sa.articleTitle}]]</h2>
-		<p>[[${sa.articleContents}]]</p>
+	<th:block th:each="a : ${article}">
+		<h2>[[${a.articleTitle}]]</h2>
+		<p>[[${a.articleContents}]]</p>
 	</th:block>
 
 	<div class="share">
