@@ -8,6 +8,8 @@ import board.dto.BoardDto;
 
 @Mapper
 public interface BoardMapper {
+	List<BoardDto> selectBoardListForSample() throws Exception;
+	
 	List<BoardDto> selectBoardList() throws Exception;
 	void insertBoard(BoardDto boardDto) throws Exception;
 	void updateHitCount(int boardIdx) throws Exception;

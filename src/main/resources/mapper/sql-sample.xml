@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.mapper.SampleMapper">
+	<!-- 가장 최근에 등록된 기사를 조회 -->
+	<select id="selectOneArticle" resultType="board.dto.ArticleDto">
+		select topic_id, topic_title, topic_image, topic_contents, regist_dt
+		  from t_topic
+      order by regist_dt desc
+		 limit 1
+	</select>
+	
+	<!-- 카테고리 정보를 조회 -->
+	<select id="selectCategory" parameterType="int" resultType="board.dto.CategoryDto">
+		select category_name 
+		  from t_topic a, t_topic_category tc, t_category c
+		 where a.topic_id = #{topicId}
+		   and a.topic_id = tc.topic_id 
+		   and c.category_id = tc.category_id;
+	</select>
+	
+	<!-- 세부 기사 정보를 조회 -->
+	<select id="selectSubArticle" parameterType="int" resultType="board.dto.SubArticleDto">
+		select article_id, article_title, article_contents
+		  from t_article
+		 where topic_id = #{topicId}	
+	</select>		 
+</mapper>  
+  

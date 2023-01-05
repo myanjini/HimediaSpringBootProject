@@ -41,4 +41,9 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteBoard(int boardIdx) throws Exception {
 		boardMapper.deleteBoard(boardIdx);
 	}
+
+	@Override
+	public List<BoardDto> selectBoardListForSample() throws Exception {
+		return boardMapper.selectBoardListForSample();
+	}
 }
