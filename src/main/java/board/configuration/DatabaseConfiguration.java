@@ -11,6 +11,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -18,6 +21,7 @@ import com.zaxxer.hikari.HikariDataSource;
 // application.properties 파일의 내용을 읽어서 DataSource 객체를 생성
 @Configuration
 @PropertySource("classpath:/application.properties")
+@EnableTransactionManagement
 public class DatabaseConfiguration {
 
 	@Autowired
@@ -42,7 +46,6 @@ public class DatabaseConfiguration {
 		return new org.apache.ibatis.session.Configuration();
 	}
 	
-	// 데이터베이스의 연결과 SQL의 실행에 대한 모든 것을 가진 객체
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -54,10 +57,14 @@ public class DatabaseConfiguration {
 		return sqlSessionFactoryBean.getObject();
 	}
 	
-	// SqlSession을 구현하고 코드에서 SqlSession의 기존 사용을 대체하는 역할을 수행
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
+	}
+	
+	@Bean
+	public PlatformTransactionManager transactionManager() throws Exception {
+		return new DataSourceTransactionManager(dataSource());
 	}
 }
 

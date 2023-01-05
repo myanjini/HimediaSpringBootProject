@@ -22,3 +22,13 @@
 - BoardMapper.insertBoard(BoardDto boardDto)
 - sql-board.xml > insertBoard
 - boardWrite.html
+
+### 게시판 수정 기능 구현
+
+### 게시판 삭제 기능 구현
+
+### 로깅 기능 구현
+- logback
+- log4jdbc 
+
+
