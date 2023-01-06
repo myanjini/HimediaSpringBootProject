@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>토픽 등록</title>
+</head>
+<body>
+	<form action="/topicInsert.do" method="post" enctype="multipart/form-data">
+		제목: <input type="text" name="topicTitle" /><br />
+		이미지: <input type="file" name="imageFile" /><br />
+		내용: <textarea name="topicContents"></textarea><br />		
+		<input type="submit" value="등록" />
+	</form>
+</body>
+</html>

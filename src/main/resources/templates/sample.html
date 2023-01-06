@@ -55,7 +55,10 @@
 	</time>
 	</div>
 
+	<!--  
 	<p><img src="" alt="" th:attrappend="src=${topic.topicImage}"></p>
+	-->
+	<p><img src="/download.do?topicId=" th:attrappend="src=${topic.topicId}"></p>
 
 	<p>[[${topic.topicContents}]]</p>
 
@@ -121,10 +124,10 @@
 		<aside class="sidemenu">
 		<h1>특집 기사</h1>
 		<ul>
-		<li th:if="${#lists.size(sidemenu)} > 0" th:each="board : ${sidemenu}">
-			<a href="#">
+		<li th:if="${#lists.size(sidemenu)} > 0" th:each="topic : ${sidemenu}">
+			<a href="/getTopic.do?topicId=" th:attrappend="href=${topic.topicId}">
 				<i class="fa fa-caret-right"></i>
-				[[${board.title}]]
+				[[${topic.topicTitle}]]
 			</a>
 		</li>
 		<!--  

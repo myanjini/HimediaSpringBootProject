@@ -3,6 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper.SampleMapper">
+	<!-- 기사 등록 -->
+	<insert id="topicInsert" parameterType="board.dto.TopicDto">
+		insert into t_topic ( topic_title, topic_image, topic_contents )
+		values ( #{topicTitle}, #{topicImage}, #{topicContents} )	
+	</insert>
+
+	<!-- 특집 기사에 출력한 최신 기사 네 개를 조회 -->
+	<select id="selectFourTopic" resultType="board.dto.TopicDto">
+		select topic_id, topic_title, topic_image, topic_contents, regist_dt
+		  from t_topic
+      order by regist_dt desc
+		 limit 4
+	</select>
+
+	<!-- 매개변수로 전달된 topicId와 일치하는 기사를 조회 -->
+	<select id="selectOneArticleByTopicId" parameterType="int" resultType="board.dto.TopicDto">
+		select topic_id, topic_title, topic_image, topic_contents, regist_dt
+		  from t_topic
+         where topic_id = #{topicId}
+	</select>
+
 	<!-- 가장 최근에 등록된 기사를 조회 -->
 	<select id="selectOneTopic" resultType="board.dto.TopicDto">
 		select topic_id, topic_title, topic_image, topic_contents, regist_dt
