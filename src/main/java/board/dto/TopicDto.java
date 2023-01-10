@@ -9,4 +9,5 @@ public class TopicDto {
 	private String topicImage;
 	private String topicContents;
 	private String registDt;
+	private int[]  category;
 }

@@ -90,6 +90,13 @@
 	<aside class="relation">
 	<h1>관련 기사</h1>
 	<ul>
+	<li th:each="news : ${news}"  th:if="${news.typeName eq '관련기사'}">
+		<a href="#">
+			<img src="/downloadNewsImage.do?newsId=" th:attrappend="src=${news.newsId}">
+			<div class="text" th:text="${news.newsTitle}"></div>
+		</a>
+	</li>
+	<!--  
 	<li><a href="#">
 		<img src="img/red-150x150.jpg" alt="">
 		<div class="text">
@@ -114,6 +121,7 @@
 		통조림을 활용한 절약과 효율화
 		</div>
 	</a></li>
+	-->
 	</ul>
 	</aside>
 
@@ -154,6 +162,13 @@
 		<aside class="recommend">
 		<h1>추천 기사</h1>
 		<ul>
+		<li th:each="news : ${news}"  th:if="${news.typeName eq '추천기사'}">
+			<a href="#">
+				<img src="/downloadNewsImage.do?newsId=" th:attrappend="src=${news.newsId}">
+				<div class="text" th:text="${news.newsTitle}"></div>
+			</a>
+		</li>		
+		<!--  
 		<li><a href="#">
 			<img src="img/flower.jpg" alt="">
 			<div class="text">
@@ -166,6 +181,7 @@
 			오래된 스마트폰을 충전했더니
 			</div>
 		</a></li>
+		-->
 		</ul>
 		</aside>
 	</div>
@@ -174,6 +190,18 @@
 		<aside class="popular">
 		<h1>인기 기사</h1>
 		<ul>
+		<li th:each="news : ${news}"  th:if="${news.typeName eq '인기기사'}">
+			<a href="#">
+				<img src="/downloadNewsImage.do?newsId=" th:attrappend="src=${news.newsId}" />
+				<div class="text">
+					[[${news.newsTitle}]]
+					<th:block th:each="category : ${news.categoryNames}">
+						<span>[[${category}]]</span>
+					</th:block>					
+				</div>
+			</a>
+		</li>		
+		<!--  
 		<li><a href="#">
 			<img src="img/flower-60x60.jpg" alt="">
 			<div class="text">
@@ -216,6 +244,7 @@
 			<span>외출</span>
 			</div>
 		</a></li>
+		-->
 		</ul>
 		</aside>
 	</div>

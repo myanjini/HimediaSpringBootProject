@@ -3,6 +3,7 @@ package board.controller;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import board.dto.ArticleDto;
 import board.dto.CategoryDto;
+import board.dto.NewsDto;
 import board.dto.TopicDto;
 import board.service.SampleService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +48,9 @@ public class SampleController {
 		List<ArticleDto> articleDto = sampleService.selectSubArticle(topicDto.getTopicId());
 		mv.addObject("article", articleDto);
 				
+		List<NewsDto> newsDto = sampleService.selectNews();
+		mv.addObject("news", newsDto);
+		
 		return mv;
 	}
 	
@@ -67,16 +72,22 @@ public class SampleController {
 		List<ArticleDto> articleDto = sampleService.selectSubArticle(topicDto.getTopicId());
 		mv.addObject("article", articleDto);
 				
+		List<NewsDto> newsDto = sampleService.selectNews();
+		mv.addObject("news", newsDto);
+		
 		return mv;
 	}	
 	
-	// 등록 화면을 요청 -> 화면만 전달 
-	// http://localhost:8080/topicWrite.do 
+	// 등록 화면을 요청 -> 화면만 전달 (X) => 카테고리 정보를 결합해서 반환 
 	@GetMapping("/topicWrite.do")
-	public String topicWrite() throws Exception {
-		return "topicWrite.html";
-	}
-	
+	public ModelAndView topicWrite() throws Exception {
+		ModelAndView mv = new ModelAndView("topicWrite.html");
+		
+		List<CategoryDto> category = sampleService.selectCategoryList();
+		mv.addObject("category", category);
+		
+		return mv;
+	}	
 		
 	// 등록 처리를 요청 -> 전달받은 데이터를 데이터베이스에 저장
 	@PostMapping("/topicInsert.do")
@@ -89,6 +100,8 @@ public class SampleController {
 		log.debug(topicDto.getTopicTitle());	// <input type="text" name="title"> 태그에 입력한 값
 		log.debug(topicDto.getTopicImage());	// 값이 설정되지 않는 것을 확인
 		log.debug(topicDto.getTopicContents());	// <textarea name="contents"> 태그에 입력한 값
+		
+		log.debug(Arrays.toString(topicDto.getCategory()));
 		
 		
 		// TODO. file 객체의 내용을 지정된 디렉터리에 저장 후 해당 정보를 DB에 저장 
@@ -127,4 +140,31 @@ public class SampleController {
 			fis.close();
 		}
 	}	
+	
+	@GetMapping("/downloadNewsImage.do")
+	public void downloadNewsImage(@RequestParam int newsId, HttpServletResponse response) throws Exception {
+		NewsDto newsDto = sampleService.selectOneNewsByNewsId(newsId);
+				
+		String newsImage = newsDto.getNewsImage();
+		
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		try {
+			response.setHeader("Content-Disposition", "inline;");
+			
+			byte[] buf = new byte[1024];
+			fis = new FileInputStream(newsImage);
+			bis = new BufferedInputStream(fis);
+			bos = new BufferedOutputStream(response.getOutputStream());
+			int read;
+			while((read = bis.read(buf, 0, 1024)) != -1) {
+				bos.write(buf, 0, read);
+			}
+		} finally {
+			bos.close();
+			bis.close();
+			fis.close();
+		}
+	}		
 }

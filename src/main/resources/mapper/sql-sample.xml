@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board.mapper.SampleMapper">
 	<!-- 기사 등록 -->
-	<insert id="topicInsert" parameterType="board.dto.TopicDto">
+	<insert id="topicInsert" parameterType="board.dto.TopicDto" useGeneratedKeys="true" keyProperty="topicId">
 		insert into t_topic ( topic_title, topic_image, topic_contents )
 		values ( #{topicTitle}, #{topicImage}, #{topicContents} )	
 	</insert>
@@ -33,6 +33,11 @@
 	</select>
 	
 	<!-- 카테고리 정보를 조회 -->
+	<select id="selectCategoryList" resultType="board.dto.CategoryDto">
+		select category_id, category_name 
+		  from t_category
+	</select>
+
 	<select id="selectCategory" parameterType="int" resultType="board.dto.CategoryDto">
 		select category_name 
 		  from t_topic a, t_topic_category tc, t_category c
@@ -46,6 +51,34 @@
 		select article_id, article_title, article_contents
 		  from t_article
 		 where topic_id = #{topicId}	
-	</select>		 
+	</select>		
+	
+	<insert id="insertTopicCategory" parameterType="board.dto.TopicDto">
+		insert into t_topic_category (topic_id, category_id)
+		values  
+		<foreach collection="category" item="categoryId" separator=",">
+		 ( #{topicId}, #{categoryId} ) 
+		</foreach>
+	</insert>
+	 
+	<select id="selectNews" resultType="board.dto.NewsDto">
+		select n.news_id, news_title, news_image, news_contents, t.type_id, t.type_name 
+		  from t_news n, t_type t, t_news_type nt
+		 where n.news_id = nt.news_id and t.type_id = nt.type_id
+		 order by regist_dt
+	</select>	 
+	 
+	<select id="selectOneNewsByNewsId" parameterType="int" resultType="board.dto.NewsDto">
+		select news_id, news_title, news_image, news_contents 
+		  from t_news
+		 where news_id = #{newsId}
+	</select>	 
+	
+	<select id="selectCategoryByNewsId" parameterType="int" resultType="String">
+		select c.category_name from t_news n, t_news_category nc, t_category c
+		 where n.news_id = nc.news_id and c.category_id = nc.category_id
+		   and n.news_id = #{newsId}	
+	</select>
+	 
 </mapper>  
   

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.ArticleDto;
 import board.dto.CategoryDto;
+import board.dto.NewsDto;
 import board.dto.TopicDto;
 import board.mapper.SampleMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,11 @@ public class SampleServiceImpl implements SampleService {
 	@Override
 	public TopicDto selectOneArticle() throws Exception {
 		return sampleMapper.selectOneTopic();
+	}
+
+	@Override
+	public List<CategoryDto> selectCategoryList() throws Exception {
+		return sampleMapper.selectCategoryList();
 	}
 
 	@Override
@@ -56,7 +62,8 @@ public class SampleServiceImpl implements SampleService {
 	public void topicInsert(TopicDto topicDto, MultipartFile file) throws Exception {
 		String savedFilePath = saveFile(file);
 		topicDto.setTopicImage(savedFilePath);
-		sampleMapper.topicInsert(topicDto);		
+		sampleMapper.topicInsert(topicDto);	
+		sampleMapper.insertTopicCategory(topicDto);
 	}
 
 	// 파일을 저장하고 저장 경로를 반환하는 메서드
@@ -70,4 +77,22 @@ public class SampleServiceImpl implements SampleService {
 		
 		return savedFilePath;
 	}
+
+	@Override
+	public List<NewsDto> selectNews() throws Exception {
+		List<NewsDto> newsList = sampleMapper.selectNews();
+		
+		for (NewsDto news : newsList) {
+			List<String> categoryNames = sampleMapper.selectCategoryByNewsId(news.getNewsId());
+			news.setCategoryNames(categoryNames.toArray(new String[categoryNames.size()]));
+		}
+		
+		return newsList;
+	}
+
+	@Override
+	public NewsDto selectOneNewsByNewsId(int newsId) throws Exception {
+		return sampleMapper.selectOneNewsByNewsId(newsId);
+	}
+
 }
