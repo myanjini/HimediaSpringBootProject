@@ -7,6 +7,12 @@
 </head>
 <body>
 	<div class="container">
+		<div th:if="${#strings.isEmpty(session.user)}" style="text-align:right;">
+			<a href="/login.do" class="btn">login</a>
+		</div>
+		<div th:unless="${#strings.isEmpty(session.user)}" style="text-align:right;">
+			<b>[[${session.user.userName}]]</b>님 환영합니다. <a href="/logout.do" class="btn">logout</a>
+		</div>
 		<h2>게시판 목록</h2>
 		<table class="board_list">
 			<colgroup>
