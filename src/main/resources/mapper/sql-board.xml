@@ -22,7 +22,7 @@
 	
 	<insert id="insertBoard" parameterType="board.dto.BoardDto">
 		insert into t_board (title, contents, created_dt, created_id)
-		values ( #{title}, #{contents}, now(), 'admin' )
+		values ( #{title}, #{contents}, now(), #{createdId} )
 	</insert>
 	
 	<update id="updateHitCount" parameterType="int">
@@ -44,7 +44,7 @@
 		   set title = #{title}, 
 		       contents = #{contents}, 
 		       updated_dt = now(), 
-		       updated_id = 'admin'
+		       updated_id = #{updatedId}
 		 where board_idx = #{boardIdx} 		 
 	</update>
 	
@@ -52,7 +52,7 @@
 		update t_board
 		   set deleted_yn = 'Y', 
 		       updated_dt = now(), 
-		       updated_id = 'admin'
+		       updated_id = #{updatedId}
 		 where board_idx = #{boardIdx} 		 
 	</delete>
 </mapper>  

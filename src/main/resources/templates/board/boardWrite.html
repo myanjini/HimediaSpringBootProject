@@ -11,6 +11,10 @@
 		<form action="/board/insertBoard.do" method="POST" id="frm" name="frm">
 			<table class="board_detail">
 				<tr>
+					<td>글쓴이</td>
+					<td>[[${session.user.userName}]] ([[${session.user.userId}]])</td>
+				</tr>
+				<tr>
 					<td>제목</td>
 					<td><input type="text" id="title" name="title" /></td>
 				</tr>
