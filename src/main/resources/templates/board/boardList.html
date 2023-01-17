@@ -45,10 +45,24 @@
 				</tr>
 				<tr th:unless="${#lists.size(list)} > 0">
 					<td colspan="4">조회된 결과가 없습니다.</td>
-				</tr>
+				</tr>				
 			</tbody>
 		</table>
 		<a href="/board/openBoardWrite.do" class="btn">글쓰기</a>
+		
+		<!-- 페이지 번호와 링크를 출력 -->
+		<style>
+			ul { margin: 0; padding: 0; list-style: none; float: right; }
+			li { float: left; width: auto; }
+			li a { display: block; margin-right: 5px; padding: 3px 15px; border-radius: 2px; background-color: #75dbe7; color: #ffffff; font-size: 12px; text-decoration: none; }
+			li a:hover { background-color: #94ecf6; }
+			ul:after { content: ""; display: block; clear: both; }
+		</style>
+		<ul>
+			<li th:each="i : ${#numbers.sequence(1, pageCount, 1)}">
+				<a href="openBoardList.do?currentPage=" th:attrappend="href=${i}">[[${i}]]</a>
+			</li>
+		</ul>		
 	</div>
 </body>
 </html>

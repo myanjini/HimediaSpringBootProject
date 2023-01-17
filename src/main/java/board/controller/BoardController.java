@@ -20,44 +20,33 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class BoardController {
 	
-	// private Logger log = LoggerFactory.getLogger(this.getClass());
-
 	@Autowired
 	private BoardService boardService;
 	
 	
-	// (로그인 기능 구현 전) 테스트를 위해 사용자 정보를 세션에 저장
-	private void makeSessionForTest(HttpSession session) {
-		UserDto userDto = new UserDto();
-		userDto.setUserId("tester");
-		userDto.setUserName("테스터");
-		userDto.setUserEmail("tester@test.com");
-		
-		session.setAttribute("user", userDto);
-	}
-	
-	
 	@GetMapping("/board/openBoardList.do")
-	public ModelAndView openBoardList() throws Exception {
+	public ModelAndView openBoardList(
+			// 현재 페이지 번호를 요청 파라미터로 부터 추출
+			@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage) throws Exception {
 		ModelAndView mv = new ModelAndView("/board/boardList");
 		
-		List<BoardDto> list = boardService.selectBoardList();
+		List<BoardDto> list = boardService.selectBoardList((currentPage - 1) * 10);
 		mv.addObject("list", list);
+		
+		// 페이징 정보 출력에 사용되는 변수
+		mv.addObject("pageCount", Math.ceil(boardService.selectBoardListCount() / 10.0));
+		mv.addObject("currentPage", currentPage);
 		
 		return mv;
 	}
 	
 	@GetMapping("/board/openBoardWrite.do")
 	public String openBoardWrite(HttpSession session) throws Exception {
-		// 사용자 정보를 세션에 저장 
-		// 로그인 기능이 구현되면 필요 없음 
-		makeSessionForTest(session);
 		return "/board/boardWrite";
 	}
 	
 	@PostMapping("/board/insertBoard.do")
 	public String insertBoard(BoardDto boardDto, HttpSession session) throws Exception {
-		// 글쓴이 아이디를 세션에서 가져와서 저장
 		UserDto userDto = (UserDto)session.getAttribute("user");
 		boardDto.setCreatedId(userDto.getUserId());
 		
@@ -77,7 +66,6 @@ public class BoardController {
 	
 	@PostMapping("/board/updateBoard.do")
 	public String updateBoard(BoardDto boardDto, HttpSession session) throws Exception {
-		// 글쓴이 아이디를 세션에서 가져와서 저장
 		UserDto userDto = (UserDto)session.getAttribute("user");
 		boardDto.setUpdatedId(userDto.getUserId());
 		
@@ -87,7 +75,6 @@ public class BoardController {
 	
 	@PostMapping("/board/deleteBoard.do")
 	public String deleteBoard(BoardDto boardDto, HttpSession session) throws Exception {
-		// 글삭제 아이디를 세션에서 가져와서 저장
 		UserDto userDto = (UserDto)session.getAttribute("user");
 		boardDto.setUpdatedId(userDto.getUserId());
 		

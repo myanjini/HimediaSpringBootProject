@@ -9,15 +9,20 @@ import board.dto.BoardDto;
 import board.mapper.BoardMapper;
 
 @Service
-// @Transactional
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardMapper boardMapper;
 	
+	
 	@Override
-	public List<BoardDto> selectBoardList() throws Exception {
-		return boardMapper.selectBoardList();
+	public int selectBoardListCount() throws Exception {
+		return boardMapper.selectBoardListCount();
+	}
+
+	@Override
+	public List<BoardDto> selectBoardList(int offset) throws Exception {
+		return boardMapper.selectBoardList(offset);
 	}
 
 	@Override
@@ -27,14 +32,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDto selectBoardDetail(int boardIdx) throws Exception {
-		boardMapper.updateHitCount(boardIdx);				// 조회수를 증가
-		// int i = 10 / 0;									// 오류가 발생하는 코드
-		return boardMapper.selectBoardDetail(boardIdx);		// 게시판 상세 내용을 조회
-	}
-
-	@Override
-	public void updateBoard(BoardDto boardDto) throws Exception {
-		boardMapper.updateBoard(boardDto);		
+		boardMapper.updateHitCount(boardIdx);
+		return boardMapper.selectBoardDetail(boardIdx);
 	}
 
 	@Override
@@ -45,5 +44,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDto> selectBoardListForSample() throws Exception {
 		return boardMapper.selectBoardListForSample();
+	}
+
+	@Override
+	public void updateBoard(BoardDto boardDto) throws Exception {
+		boardMapper.updateBoard(boardDto);		
 	}
 }

@@ -12,12 +12,21 @@
 	     limit 4;
 	</select> 
 	
-	<select id="selectBoardList" resultType="board.dto.BoardDto">
+	<!-- 검색 조건과 일치하는 게시물 개수를 조회 -->
+	<select id="selectBoardListCount" resultType="int">
+		select count(*)
+		  from t_board
+		 where deleted_yn = 'N'
+	</select> 
+
+	<!-- 페이징 처리 -->
+	<select id="selectBoardList" parameterType="int" resultType="board.dto.BoardDto">
 		select board_idx, title, hit_cnt, 
 		       date_format(created_dt, '%Y-%m-%d %H:%i:%s') as created_dt
 		  from t_board
-		 where deleted_yn = 'N'
+		 where deleted_yn = 'N'		 
 	  order by board_idx desc
+	     limit #{offset}, 10
 	</select> 
 	
 	<insert id="insertBoard" parameterType="board.dto.BoardDto">
