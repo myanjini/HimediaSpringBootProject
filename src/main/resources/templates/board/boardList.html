@@ -54,13 +54,15 @@
 		<style>
 			ul { margin: 0; padding: 0; list-style: none; float: right; }
 			li { float: left; width: auto; }
-			li a { display: block; margin-right: 5px; padding: 3px 15px; border-radius: 2px; background-color: #75dbe7; color: #ffffff; font-size: 12px; text-decoration: none; }
+			li a { display: block; margin-right: 5px; padding: 3px 15px; border-radius: 2px; background-color: #86ecf8; color: #ffffff; font-size: 12px; text-decoration: none; }
 			li a:hover { background-color: #94ecf6; }
 			ul:after { content: ""; display: block; clear: both; }
+			li a.current { font-weight: bold; background-color: #75dbe7; }
 		</style>
 		<ul>
 			<li th:each="i : ${#numbers.sequence(1, pageCount, 1)}">
-				<a href="openBoardList.do?currentPage=" th:attrappend="href=${i}">[[${i}]]</a>
+				<a th:if="${i eq currentPage}" class="current" href="openBoardList.do?currentPage=" th:attrappend="href=${i}">[[${i}]]</a>
+				<a th:unless="${i eq currentPage}" href="openBoardList.do?currentPage=" th:attrappend="href=${i}">[[${i}]]</a>
 			</li>
 		</ul>		
 	</div>
